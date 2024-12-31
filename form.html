@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Submission</title>
+    <style>
+        .myFormWrapper {
+            margin: 0 !important;
+            padding: 0 !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            width: 100% !important;
+        }
+        .myFormContainer {
+            position: relative !important;
+            background: #efdbdb !important;
+            padding: 30px !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+        .myPhoneWrapper {
+            display: flex !important;
+            gap: 10px !important;
+            align-items: center !important;
+        }
+        .myPopupError {
+            position: absolute !important;
+            background-color: #f2dede !important;
+            color: #a94442 !important;
+            border: 1px solid #ebccd1 !important;
+            border-radius: 4px !important;
+            padding: 8px !important;
+            font-size: 14px !important;
+            z-index: 999 !important;
+            width: auto !important;
+            max-width: 200px !important;
+            display: none !important;
+        }
+        .myPopupError.active {
+            display: block !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="myFormWrapper">
+        <div class="myFormContainer">
+            <form id="myDataForm" method="POST" action="submit.php">
+                <!-- Name Field -->
+                <div>
+                    <label for="myNameField" style="font-weight: bold !important; font-size: 2.0rem !important;">Name</label>
+                    <input 
+                        type="text" 
+                        id="myNameField" 
+                        name="myNameField" 
+                        placeholder="Your name" 
+                        required 
+                        style="width: 100% !important; max-width: 100% !important; padding: 12px !important; margin-bottom: 10px !important; border: 1px solid #ddd !important; border-radius: 4px !important; box-sizing: border-box !important;"
+                    />
+                    <div id="myNameError" class="myPopupError"></div>
+                </div>
+
+                <!-- Email Field -->
+                <div>
+                    <label for="myEmailField" style="font-weight: bold !important; font-size: 2.0rem !important;">Email</label>
+                    <input 
+                        type="email"
+                        id="myEmailField"
+                        name="myEmailField"
+                        placeholder="Your email"
+                        required
+                        style="width: 100% !important; max-width: 100% !important; padding: 12px !important; margin-bottom: 10px !important; border: 1px solid #ddd !important; border-radius: 4px !important; box-sizing: border-box !important;"
+                    />
+                    <div id="myEmailError" class="myPopupError"></div>
+                </div>
+
+                <!-- WhatsApp Number -->
+                <label style="font-weight: bold !important; font-size: 2.0rem !important;">WhatsApp Number</label>
+                <div class="myPhoneWrapper">
+                    <input
+                        type="text"
+                        class="myPlusSign"
+                        value="+"
+                        readonly
+                        style="width: 20px !important; background-color: #efdbdb !important; color: black; max-width: 20px !important; text-align: center !important; border: none !important; font-size: 2.5rem !important; padding: 0 !important; cursor: default !important; box-sizing: border-box !important;"
+                    />
+                    <input
+                        type="number"
+                        id="myCountryCodeField"
+                        name="myCountryCodeField"
+                        placeholder="Code"
+                        required
+                        value="91"
+                        style="width: 80px !important; max-width: 80px !important; padding: 12px !important; border: 1px solid #ddd !important; border-radius: 4px !important; box-sizing: border-box !important;"
+                    />
+                    <input
+                        type="number"
+                        id="myWhatsappNumberField"
+                        name="myWhatsappNumberField"
+                        placeholder="WhatsApp Number"
+                        required
+                        style="flex: 1 !important; width: auto !important; max-width: 100% !important; padding: 12px !important; border: 1px solid #ddd !important; border-radius: 4px !important; box-sizing: border-box !important;"
+                    />
+                    <div id="myPhoneError" class="myPopupError" style="top: 100%; left: 0;"></div>
+                </div>
+
+                <input type="hidden" id="webhookURL" name="webhookURL" value="">
+                <input type="hidden" id="redirectURL" name="redirectURL" value="">
+                <input type="hidden" id="utm_source" name="utm_source" value="">
+                <input type="hidden" id="utm_medium" name="utm_medium" value="">
+                <input type="hidden" id="utm_campaign" name="utm_campaign" value="">
+                <input type="hidden" id="utm_term" name="utm_term" value="">
+                <input type="hidden" id="utm_content" name="utm_content" value="">
+
+                <button 
+                    type="submit" 
+                    style="margin-top: 15px !important; padding: 15px !important; background-color: #4caf50 !important; color: #fff !important; font-size: 16px !important; font-weight: bold !important; border: none !important; border-radius: 6px !important; cursor: pointer !important; width: 100% !important;">
+                    Submit
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const webhookURL = "https://YOUR-WEBHOOK-URL.com";
+        const redirectURL = "https://YOUR-REDIRECT-URL.com";
+        const defaultCountryCode = "91";
+
+        document.getElementById("webhookURL").value = webhookURL;
+        document.getElementById("redirectURL").value = redirectURL;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const utmFields = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
+
+        utmFields.forEach(field => {
+            document.getElementById(field).value = urlParams.get(field) || "";
+        });
+
+        async function fetchCountryCode() {
+            try {
+                const response = await fetch("https://ipapi.co/json/");
+                const data = await response.json();
+                const detectedCode = data.country_calling_code;
+
+                if (detectedCode && detectedCode.startsWith("+")) {
+                    document.getElementById("myCountryCodeField").value = detectedCode.slice(1);
+                } else {
+                    document.getElementById("myCountryCodeField").value = defaultCountryCode;
+                }
+            } catch (error) {
+                document.getElementById("myCountryCodeField").value = defaultCountryCode;
+            }
+        }
+
+        fetchCountryCode();
+    </script>
+</body>
+</html>
