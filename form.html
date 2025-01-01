@@ -108,6 +108,7 @@
                     <div id="myPhoneError" class="myPopupError" style="top: 100%; left: 0;"></div>
                 </div>
 
+                <!-- Hidden Fields -->
                 <input type="hidden" id="webhookURL" name="webhookURL" value="">
                 <input type="hidden" id="redirectURL" name="redirectURL" value="">
                 <input type="hidden" id="utm_source" name="utm_source" value="">
@@ -115,6 +116,7 @@
                 <input type="hidden" id="utm_campaign" name="utm_campaign" value="">
                 <input type="hidden" id="utm_term" name="utm_term" value="">
                 <input type="hidden" id="utm_content" name="utm_content" value="">
+                <input type="hidden" id="topic" name="topic" value="">
 
                 <button 
                     type="submit" 
@@ -129,9 +131,11 @@
         const webhookURL = "https://YOUR-WEBHOOK-URL.com";
         const redirectURL = "https://YOUR-REDIRECT-URL.com";
         const defaultCountryCode = "91";
+        const topic = "Contact Form Submission"; // Example topic
 
         document.getElementById("webhookURL").value = webhookURL;
         document.getElementById("redirectURL").value = redirectURL;
+        document.getElementById("topic").value = topic;
 
         const urlParams = new URLSearchParams(window.location.search);
         const utmFields = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
