@@ -49,7 +49,7 @@
 <body>
     <div class="myFormWrapper">
         <div class="myFormContainer">
-            <form id="myDataForm" method="POST" action="submit.php">
+            <form id="myDataForm" method="POST" action="https://racchnaparemar.com/submit.php">
                 <!-- Name Field -->
                 <div>
                     <label for="myNameField" style="font-weight: bold !important; font-size: 2.0rem !important;">Name</label>
@@ -116,6 +116,7 @@
                 <input type="hidden" id="utm_campaign" name="utm_campaign" value="">
                 <input type="hidden" id="utm_term" name="utm_term" value="">
                 <input type="hidden" id="utm_content" name="utm_content" value="">
+                <input type="hidden" id="fbclid" name="fbclid" value="">
                 <input type="hidden" id="topic" name="topic" value="">
 
                 <button 
@@ -128,17 +129,17 @@
     </div>
 
     <script>
-        const webhookURL = "https://YOUR-WEBHOOK-URL.com";
-        const redirectURL = "https://YOUR-REDIRECT-URL.com";
+        const webhookURL = "YOUR-WEBHOOK-URL-HERE";
+        const redirectURL = "YOUR-REDIRECT-URL-HERE";
         const defaultCountryCode = "91";
-        const topic = "Contact Form Submission"; // Example topic
+        const topic = "Struggling with Dissatisfaction"; // Example topic
 
         document.getElementById("webhookURL").value = webhookURL;
         document.getElementById("redirectURL").value = redirectURL;
         document.getElementById("topic").value = topic;
 
         const urlParams = new URLSearchParams(window.location.search);
-        const utmFields = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
+        const utmFields = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "fbclid"];
 
         utmFields.forEach(field => {
             document.getElementById(field).value = urlParams.get(field) || "";
