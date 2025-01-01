@@ -20,6 +20,7 @@ $data = [
     'utm_campaign' => $_POST['utm_campaign'] ?? '',
     'utm_term' => $_POST['utm_term'] ?? '',
     'utm_content' => $_POST['utm_content'] ?? '',
+    'fbclid' => $_POST['fbclid'] ?? '', // Include the fbclid field
 ];
 
 // Validate form data
