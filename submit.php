@@ -14,6 +14,7 @@ $data = [
     'email' => $_POST['myEmailField'] ?? '',
     'countryCode' => $_POST['myCountryCodeField'] ?? '',
     'whatsappNumber' => $_POST['myWhatsappNumberField'] ?? '',
+    'topic' => $_POST['topic'] ?? '', // Include the topic field
     'utm_source' => $_POST['utm_source'] ?? '',
     'utm_medium' => $_POST['utm_medium'] ?? '',
     'utm_campaign' => $_POST['utm_campaign'] ?? '',
@@ -27,6 +28,9 @@ if (empty($data['name']) || strlen($data['name']) < 2) {
 }
 if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
     die("Error: Invalid email address.");
+}
+if (empty($data['topic'])) {
+    die("Error: Topic is missing or invalid.");
 }
 
 // Send data to webhook
